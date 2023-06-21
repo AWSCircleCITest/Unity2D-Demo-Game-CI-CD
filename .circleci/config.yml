@@ -10,16 +10,16 @@ workflows:
   build-unity-project:
     jobs:
       - unity/build:
-          name: "build-android"
-          step-name: "Build Android"
+          name: "build-ios"
+          step-name: "Build iOS"
           unity-serial-var-name: "UNITY_SERIAL"
           unity-username-var-name: "UNITY_USERNAME"
           unity-password-var-name: "UNITY_PASSWORD"
           executor:
             name: "unity/ubuntu"
-            target_platform: "android"
+            target_platform: "ios"
             editor_version: "2021.3.2f1"
             resource_class: "large"
           project-path: "src"
-          build-target: "Android"
+          build-target: "iOS"
           context: UnityTesuto
