@@ -27,14 +27,21 @@ jobs:
     macos:
       xcode: 14.3.1
     resource_class: macos.m1.large.gen1
+    environment:
+      FL_OUTPUT_DIR: output
+      FASTLANE_LANE: adhoc
     steps:
       - checkout
+      - run: bundle install
       - attach_workspace:
           at: .
       - ruby/install-deps:
           key: ios
-      - run: bundle exec fastlane ios beta
-
+      - run:
+          name: Fastlane
+          command: bundle exec fastlane $FASTLANE_LANE
+      - store_artifacts:
+          path: output
 
 workflows:
   build-unity-project:
