@@ -27,17 +27,15 @@ jobs:
     macos:
       xcode: 14.3.1
     resource_class: macos.m1.large.gen1
-    environment:
-      FL_OUTPUT_DIR: output
-      FASTLANE_LANE: adhoc
     steps:
       - checkout
       - attach_workspace:
           at: .
       - run:
-          command:  xcodebuild -project Unity-iPhone.xcodeproj -scheme Unity-iPhone archive -archivePath xarchive PROVISIONING_PROFILE=4a3abac3-8987-4c0a-b99c-1db774de2743 -destination 'platform=iOS Simulator,name=iPhone12,OS=14.4'
-      - store_artifacts:
-          path: output
+          command: ls -laR
+#          command:  xcodebuild -project Unity-iPhone.xcodeproj -scheme Unity-iPhone archive -archivePath xarchive PROVISIONING_PROFILE=4a3abac3-8987-4c0a-b99c-1db774de2743 -destination 'platform=iOS Simulator,name=iPhone12,OS=14.4'
+#      - store_artifacts:
+#          path: output
 
 workflows:
   build-unity-project:
