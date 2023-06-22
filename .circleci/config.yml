@@ -32,14 +32,10 @@ jobs:
       FASTLANE_LANE: adhoc
     steps:
       - checkout
-      - run: bundle install
       - attach_workspace:
           at: .
-      - ruby/install-deps:
-          key: ios
       - run:
-          name: Fastlane
-          command: bundle exec fastlane $FASTLANE_LANE
+          command:  xcodebuild -project Unity-iPhone.xcodeproj -scheme Unity-iPhone archive -archivePath xarchive PROVISIONING_PROFILE=4a3abac3-8987-4c0a-b99c-1db774de2743 -destination 'platform=iOS Simulator,name=iPhone12,OS=14.4'
       - store_artifacts:
           path: output
 
