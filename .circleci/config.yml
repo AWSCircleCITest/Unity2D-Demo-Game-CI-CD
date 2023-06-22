@@ -22,7 +22,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - Builds/iOS/iOS
+            - ./*
   build-and-beta-ios:
     macos:
       xcode: 14.3.1
