@@ -1,25 +1,48 @@
 version: 2.1
 
-# set unity as 1.4.0
 orbs:
+  ruby: circleci/ruby@2.0.1
   unity: game-ci/unity@1.4.0
 
-# set context as UnityTesuto (I set it in OrganizationSettings->Contexts)
-# set unity-serial-var-name instead of unity-license-var-name
+jobs:
+  export-ios:
+    executor:
+      name: unity/ubuntu
+      editor_version: 2021.3.2f1
+      resource_class: xlarge
+      target_platform: ios
+    steps:
+      - checkout
+      - unity/prepare-env
+      - unity/build:
+          build-target: iOS
+          compress: false
+          store-artifacts: false
+          project-path: "src"
+      - persist_to_workspace:
+          root: .
+          paths:
+            - Builds/iOS/iOS
+  build-and-beta-ios:
+    macos:
+      xcode: 14.3.1
+    resource_class: macos.m1.large.gen1
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - ruby/install-deps:
+          key: ios
+      - run: bundle exec fastlane ios beta
+
+
 workflows:
   build-unity-project:
     jobs:
-      - unity/build:
-          name: "build-ios"
-          step-name: "Build iOS"
-          unity-serial-var-name: "UNITY_SERIAL"
-          unity-username-var-name: "UNITY_USERNAME"
-          unity-password-var-name: "UNITY_PASSWORD"
-          executor:
-            name: "unity/ubuntu"
-            target_platform: "ios"
-            editor_version: "2021.3.2f1"
-            resource_class: "large"
-          project-path: "src"
-          build-target: "iOS"
-          context: UnityTesuto
+      - export-ios:
+          context: unity
+      - build-and-beta-ios:
+          requires:
+            - export-ios
+          context:
+            - mobile
