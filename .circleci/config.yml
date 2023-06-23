@@ -34,8 +34,8 @@ jobs:
     macos:
       xcode: 14.3.1
     resource_class: macos.m1.large.gen1
-    working_directory:
-      ./src/Builds/iOS/iOS
+#    working_directory:
+#      ./src/Builds/iOS/iOS
     steps:
       - checkout
       - attach_workspace:
@@ -49,7 +49,7 @@ jobs:
       - run:
           command: ls -laR ./src/Builds/iOS
       - run:
-          command: xcodebuild -project Unity-iPhone.xcodeproj -scheme Unity-iPhone archive -archivePath Unity2D-Demo-Game-CI-CD.xarchive PROVISIONING_PROFILE=4a3abac3-8987-4c0a-b99c-1db774de2743
+          command: xcodebuild -project ./src/Builds/iOS/iOS/Unity-iPhone.xcodeproj -scheme Unity-iPhone archive -archivePath Unity2D-Demo-Game-CI-CD.xarchive PROVISIONING_PROFILE=4a3abac3-8987-4c0a-b99c-1db774de2743
       - run:
           command: xcodebuild -exportArchive -archivePath Unity2D-Demo-Game-CI-CD.xcarchive -exportPath . -exportOptionsPlist ExportOptions.plist PROVISIONING_PROFILE=4a3abac3-8987-4c0a-b99c-1db774de2743
       - run:
