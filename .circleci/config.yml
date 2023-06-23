@@ -22,7 +22,9 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - ./*
+            - .
+      - run:
+          command: pwd; ls -laR
   build-and-beta-ios:
     macos:
       xcode: 14.3.1
@@ -32,7 +34,7 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          command: ls -laR
+          command: pwd; ls -laR
 #          command:  xcodebuild -project Unity-iPhone.xcodeproj -scheme Unity-iPhone archive -archivePath xarchive PROVISIONING_PROFILE=4a3abac3-8987-4c0a-b99c-1db774de2743 -destination 'platform=iOS Simulator,name=iPhone12,OS=14.4'
 #      - store_artifacts:
 #          path: output
